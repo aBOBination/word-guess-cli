@@ -20,7 +20,7 @@ function Letter(letter) {
   l.letter = letter.toString();
   l.letterGuessed = false;
   l.displayLetter = function () {
-    return l.letterGuessed ? l.letter : '_';
+    return l.letterGuessed || /^[^a-zA-Z]+$/.test(l.letter) ? l.letter : '_';
   };
   l.userGuess = function (guess) {
     l.letterGuessed = guess === l.letter ? true : l.letterGuessed;
