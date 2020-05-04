@@ -14,17 +14,19 @@ var guesses = [];
 var remainingGuesses = 3;
 
 function validateInpout(input) {
-  if (input !== '' && !guesses.includes(input) && input.length > 1 === false && /^[a-zA-Z]+$/.test(input)) {
+  if (
+    input !== '' &&
+    !guesses.includes(input) &&
+    input.length > 1 === false &&
+    /^[a-zA-Z]+$/.test(input)
+  ) {
     return true;
   }
 }
 
 var askQuestion = function () {
-  // if statement to ensure that our questions are only asked five times
   if (remainingGuesses > 0) {
     console.log('Please guess the word!');
-    // runs inquirer and asks the user a series of questions whose replies are
-    // stored within the variable answers inside of the .then statement
     inquirer
       .prompt([
         {
@@ -40,11 +42,9 @@ var askQuestion = function () {
         console.log(remainingGuesses);
         askQuestion();
       });
-    // else statement which runs a for loop that will execute .printInfo() for each object inside of our array
   } else {
     console.log('meh');
   }
 };
 
-// call askQuestion to run our code
 askQuestion();
