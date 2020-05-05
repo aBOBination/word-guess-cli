@@ -17,6 +17,7 @@
 var Letter = require('./letters.js');
 
 function Word(word) {
+  this.word = word;
   this.letters = word.split('').map(Letter);
   this.wordString = function () {
     wordString = [];

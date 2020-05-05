@@ -13,7 +13,7 @@ var word = new Word('herp derp');
 var guesses = [];
 var remainingGuesses = 3;
 
-function validateInpout(input) {
+function validateInput(input) {
   if (
     input !== '' &&
     !guesses.includes(input) &&
@@ -32,14 +32,20 @@ var askQuestion = function () {
         {
           name: 'guess',
           message: word.wordString(),
-          validate: validateInpout,
+          validate: validateInput,
         },
       ])
       .then(function (answers) {
         var guess = answers.guess;
         word.userGuess(guess);
         guesses.push(guess);
+        if (!word.word.includes(guess)) {
+          remainingGuesses--;
+        } else {
+          remainingGuesses;
+        }
         console.log(remainingGuesses);
+        console.log(word.word);
         askQuestion();
       });
   } else {
