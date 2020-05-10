@@ -1,17 +1,10 @@
-// index.js: The file containing the logic for the course of the game,
-// which depends on Word.js and:
-
-// Randomly selects a word and uses the Word constructor to store it
-
-// Prompts the user for each guess and keeps track of the user's
-// remaining guesses
-
 var Word = require('./word.js');
 var inquirer = require('inquirer');
 
 var word = new Word('herp derp');
 var guesses = [];
 var remainingGuesses = 3;
+var guessed = false;
 
 function validateInput(input) {
   if (
@@ -26,7 +19,7 @@ function validateInput(input) {
 
 var askQuestion = function () {
   if (remainingGuesses > 0) {
-    console.log('Please guess the word!');
+    console.log('Guess the word!');
     inquirer
       .prompt([
         {
@@ -44,12 +37,32 @@ var askQuestion = function () {
         } else {
           remainingGuesses;
         }
-        console.log(remainingGuesses);
-        console.log(word.word);
-        askQuestion();
+        if (word.checkWon() === true) {
+          console.log('You win!');
+          word.wordString();
+        } else {
+          askQuestion();
+        }
       });
   } else {
-    console.log('meh');
+    inquirer
+      .prompt([
+        {
+          type: 'confirm',
+          name: 'replay',
+          message: 'Play again?',
+        },
+      ])
+      .then(function (answers) {
+        if (answers.replay === true) {
+          word = new Word('next word');
+          guesses = [];
+          remainingGuesses = 3;
+          askQuestion();
+        } else {
+          console.log('Bye Felicia!');
+        }
+      });
   }
 };
 
