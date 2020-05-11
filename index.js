@@ -27,6 +27,27 @@ function randomWord() {
   return words[Math.floor(Math.random() * words.length)];
 }
 
+function playAgain() {
+  inquirer
+    .prompt([
+      {
+        type: 'confirm',
+        name: 'replay',
+        message: 'Play again?',
+      },
+    ])
+    .then(function (answers) {
+      if (answers.replay === true) {
+        word = new Word(randomWord());
+        guesses = [];
+        remainingGuesses = 3;
+        askQuestion();
+      } else {
+        console.log('Bye Felicia!');
+      }
+    });
+}
+
 function validateInput(input) {
   if (
     input !== '' &&
@@ -61,47 +82,13 @@ var askQuestion = function () {
         if (word.checkWon() === true) {
           console.log('You win!');
           word.wordString();
-          inquirer
-            .prompt([
-              {
-                type: 'confirm',
-                name: 'replay',
-                message: 'Play again?',
-              },
-            ])
-            .then(function (answers) {
-              if (answers.replay === true) {
-                word = new Word(randomWord());
-                guesses = [];
-                remainingGuesses = 3;
-                askQuestion();
-              } else {
-                console.log('Bye Felicia!');
-              }
-            });
+          playAgain();
         } else {
           askQuestion();
         }
       });
   } else {
-    inquirer
-      .prompt([
-        {
-          type: 'confirm',
-          name: 'replay',
-          message: 'Play again?',
-        },
-      ])
-      .then(function (answers) {
-        if (answers.replay === true) {
-          word = new Word(randomWord());
-          guesses = [];
-          remainingGuesses = 3;
-          askQuestion();
-        } else {
-          console.log('Bye Felicia!');
-        }
-      });
+    playAgain();
   }
 };
 
