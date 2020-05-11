@@ -1,10 +1,31 @@
 var Word = require('./word.js');
 var inquirer = require('inquirer');
+var words = [
+  'jean-luc picard',
+  'william riker',
+  'geordi ja forge',
+  'tasha yar',
+  'worf',
+  'beverly crusher',
+  'deanna troi',
+  'data',
+  'wesley crusher',
+  'q',
+  'hugh',
+  'guinan',
+  'reginald barclay',
+  "miles o'brien",
+  'noonian soong',
+];
 
-var word = new Word('herp derp');
+var word = new Word(randomWord());
+console.log(randomWord());
 var guesses = [];
 var remainingGuesses = 3;
-var guessed = false;
+
+function randomWord() {
+  return words[Math.floor(Math.random() * words.length)];
+}
 
 function validateInput(input) {
   if (
@@ -40,6 +61,24 @@ var askQuestion = function () {
         if (word.checkWon() === true) {
           console.log('You win!');
           word.wordString();
+          inquirer
+            .prompt([
+              {
+                type: 'confirm',
+                name: 'replay',
+                message: 'Play again?',
+              },
+            ])
+            .then(function (answers) {
+              if (answers.replay === true) {
+                word = new Word(randomWord());
+                guesses = [];
+                remainingGuesses = 3;
+                askQuestion();
+              } else {
+                console.log('Bye Felicia!');
+              }
+            });
         } else {
           askQuestion();
         }
@@ -55,7 +94,7 @@ var askQuestion = function () {
       ])
       .then(function (answers) {
         if (answers.replay === true) {
-          word = new Word('next word');
+          word = new Word(randomWord());
           guesses = [];
           remainingGuesses = 3;
           askQuestion();

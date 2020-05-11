@@ -27,8 +27,4 @@ function Word(word) {
   };
 }
 
-// var test = new Word('me r');
-
-// console.log(test.letters);
-
 module.exports = Word;
