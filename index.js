@@ -19,9 +19,8 @@ var words = [
 ];
 
 var word = new Word(randomWord());
-console.log(randomWord());
 var guesses = [];
-var remainingGuesses = 3;
+var remainingGuesses = 10;
 
 function randomWord() {
   return words[Math.floor(Math.random() * words.length)];
@@ -40,7 +39,7 @@ function playAgain() {
       if (answers.replay === true) {
         word = new Word(randomWord());
         guesses = [];
-        remainingGuesses = 3;
+        remainingGuesses = 10;
         askQuestion();
       } else {
         console.log('Bye Felicia!');
@@ -62,6 +61,7 @@ function validateInput(input) {
 var askQuestion = function () {
   if (remainingGuesses > 0) {
     console.log('Guess the word!');
+    console.log(remainingGuesses + ' guessed remaining');
     inquirer
       .prompt([
         {
